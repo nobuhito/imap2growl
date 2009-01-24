@@ -36,7 +36,7 @@ foreach (@$imap_conf) {
   my $new_count = $imap->recent;
   my $full_count = $imap->select($_->{folder});
   for (my $i=$full_count; $i > $full_count-$new_count; $i--) {
-    my $email = Email::MIME->new(join('', @{$imap->get($i)}));
+    my $email = Email::MIME->new(join('', @{$imap->top($i)}));
     my $subject = $email->header('Subject') || 'No subject';
     my $from = $email->header('From') || 'No from';
     to_growl("$subject\n".$_->{host}, $from);
